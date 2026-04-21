@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>투박한 계산기 만들기</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var express = "";
+        var calculated = false;
+
+        function add(character) {
+            if (calculated && !isNaN(character)) {
+                express = "";
+                calculated = false;
+            } else {
+                calculated = false;
+            }
+
+            express += character;
+            document.getElementById("calcurate").value = express;
+        }
+        function Compute() {
+            try {
+                var result = eval(express);
+                
+                if (result === undefined || result === Infinity) throw "Error";
+                
+                document.getElementById("calcurate").value = result;
+                express = result.toString();
+                calculated = true;
+            } catch (e) {
+                document.getElementById("calcurate").value = "Error";
+                express = "";
+            }
+        }
+        function clearDisplay() {
+            express = "";
+            document.getElementById("calcurate").value = "0";
+        }
+        function backspace() {
+            express = express.slice(0, -1);
+            document.getElementById("calcurate").value = express || "0";
+        }
+    </script>
+</head>
+
+<body>
+<div class="calculator">
+    <input id="calcurate" value="0">
+    <div class="buttons">
+        <input type="button" class="clear" value="C" onclick="clearDisplay()">
+        <input type="button" value="←" onclick="backspace()">
+        <input type="button" value="(" onclick="add('(')">
+        <input type="button" class="operator" value="/" onclick="add('/')">
+        <br/>
+        <input type="button" value="7" onclick="add('7')">
+        <input type="button" value="8" onclick="add('8')">
+        <input type="button" value="9" onclick="add('9')">
+        <input type="button" class="operator" value="*" onclick="add('*')">
+        <br/>
+        <input type="button" value="4" onclick="add('4')">
+        <input type="button" value="5" onclick="add('5')">
+        <input type="button" value="6" onclick="add('6')">
+        <input type="button" class="operator" value="-" onclick="add('-')">
+        <br/>
+        <input type="button" value="1" onclick="add('1')">
+        <input type="button" value="2" onclick="add('2')">
+        <input type="button" value="3" onclick="add('3')">
+        <input type="button" class="operator" value="+" onclick="add('+')">
+        <br/>
+        <input type="button" value="0" onclick="add('0')">
+        <input type="button" value="." onclick="add('.')">
+        <input type="button" class="enter" value="Enter" onclick="Compute()">
+    </div>
+</div>
+</body>
+</html>

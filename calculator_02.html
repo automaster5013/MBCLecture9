@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Professional Web Calculator</title>
+    <style>
+        /* 계산기 전체 디자인 */
+        .calculator {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #333;
+            box-shadow: 0px 10px 20px rgba(0,0,0,0.3);
+        }
+        /* 디스플레이 화면 */
+        #display {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: right;
+            margin-bottom: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 5px;
+            background: #eee;
+        }
+        /* 버튼 정렬 (Grid 사용) */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        input[type="button"] {
+            height: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        input[type="button"]:hover { background-color: #ddd; }
+        /* 연산자 버튼 색상 */
+        .operator { background-color: #ff9500; color: white; }
+        .operator:hover { background-color: #e08400; }
+        /* 초기화 버튼 색상 */
+        .clear { background-color: #ff3b30; color: white; }
+        .clear:hover { background-color: #d32f2f; }
+        /* 엔터 버튼 색상 */
+        .enter { background-color: #4cd964; color: white; grid-column: span 2; }
+    </style>
+
+    <script type="text/javascript">
+        var expression = "";
+        var calculated = false; // 계산 직후인지 확인하는 플래그
+
+        function add(character) {
+            // 계산이 끝난 직후 숫자를 누르면 화면을 비우고 새로 시작
+            if (calculated && !isNaN(character)) {
+                expression = "";
+                calculated = false;
+            } else {
+                calculated = false;
+            }
+
+            expression += character;
+            document.getElementById("display").value = expression;
+        }
+
+        function Compute() {
+            try {
+                // eval을 통해 수식 계산
+                var result = eval(expression);
+                
+                // 결과가 없거나 오류일 때 처리
+                if (result === undefined || result === Infinity) throw "Error";
+                
+                document.getElementById("display").value = result;
+                expression = result.toString(); // 결과를 다음 계산에 사용 가능하게 저장
+                calculated = true;
+            } catch (e) {
+                document.getElementById("display").value = "Error";
+                expression = "";
+            }
+        }
+
+        function clearDisplay() {
+            expression = "";
+            document.getElementById("display").value = "0";
+        }
+
+        // 마지막 글자 하나만 지우는 기능 (추가)
+        function backspace() {
+            expression = expression.slice(0, -1);
+            document.getElementById("display").value = expression || "0";
+        }
+    </script>
+</head>
+<body>
+
+<div class="calculator">
+    <input id="display" value="0" readonly>
+    
+    <div class="buttons">
+        <input type="button" class="clear" value="C" onclick="clearDisplay()">
+        <input type="button" value="←" onclick="backspace()">
+        <input type="button" value="(" onclick="add('(')">
+        <input type="button" class="operator" value="/" onclick="add('/')">
+        
+        <input type="button" value="7" onclick="add('7')">
+        <input type="button" value="8" onclick="add('8')">
+        <input type="button" value="9" onclick="add('9')">
+        <input type="button" class="operator" value="*" onclick="add('*')">
+        
+        <input type="button" value="4" onclick="add('4')">
+        <input type="button" value="5" onclick="add('5')">
+        <input type="button" value="6" onclick="add('6')">
+        <input type="button" class="operator" value="-" onclick="add('-')">
+        
+        <input type="button" value="1" onclick="add('1')">
+        <input type="button" value="2" onclick="add('2')">
+        <input type="button" value="3" onclick="add('3')">
+        <input type="button" class="operator" value="+" onclick="add('+')">
+        
+        <input type="button" value="0" onclick="add('0')">
+        <input type="button" value="." onclick="add('.')">
+        <input type="button" class="enter" value="Enter" onclick="Compute()">
+    </div>
+</div>
+
+</body>
+</html>

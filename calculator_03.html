@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>표준형 계산기 만들기</title>
+    <script type="text/javascript">
+        var expression = "";
+        var calculated = false;
+
+        function add(character) {
+            if (calculated && !isNaN(character)) {
+                expression = "";
+                calculated = false;
+            } else {
+                calculated = false;
+            }
+
+            expression += character;
+            document.getElementById("calcurate").value = expression;
+        }
+        function Compute() {
+            try {
+                var result = eval(expression);
+                
+                if (result === undefined || result === Infinity) throw "Error";
+                
+                document.getElementById("calcurate").value = result;
+                expression = result.toString();
+                calculated = true;
+            } catch (e) {
+                document.getElementById("calcurate").value = "Error";
+                expression = "";
+            }
+        }
+        function clearDisplay() {
+            expression = "";
+            document.getElementById("calcurate").value = "0";
+        }
+        function backspace() {
+            expression = expression.slice(0, -1);
+            document.getElementById("calcurate").value = expression || "0";
+        }
+    </script>
+</head>
+<body>
+
+<div class="calculator">
+    <input id="calcurate" value="0" readonly>
+    <div class="buttons">
+        <input type="button" class="clear" value="C" onclick="clearDisplay()">
+        <input type="button" value="←" onclick="backspace()">
+        <input type="button" value="(" onclick="add('(')">
+        <input type="button" class="operator" value="/" onclick="add('/')">
+        <br>
+        <input type="button" value="7" onclick="add('7')">
+        <input type="button" value="8" onclick="add('8')">
+        <input type="button" value="9" onclick="add('9')">
+        <input type="button" class="operator" value="*" onclick="add('*')">
+        <br>
+        <input type="button" value="4" onclick="add('4')">
+        <input type="button" value="5" onclick="add('5')">
+        <input type="button" value="6" onclick="add('6')">
+        <input type="button" class="operator" value="-" onclick="add('-')">
+        <br>
+        <input type="button" value="1" onclick="add('1')">
+        <input type="button" value="2" onclick="add('2')">
+        <input type="button" value="3" onclick="add('3')">
+        <input type="button" class="operator" value="+" onclick="add('+')">
+        <br>
+        <input type="button" value="0" onclick="add('0')">
+        <input type="button" value="." onclick="add('.')">
+        <input type="button" class="enter" value="Enter" onclick="Compute()">
+    </div>
+</div>
+</body>
+</html>
