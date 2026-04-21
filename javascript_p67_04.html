@@ -1,0 +1,26 @@
+<html>
+    <body>
+        <img id="imagr" src="images/drum_01.jpg" width="300" height="300">
+        <br><br>
+
+        <input type="button" value="click!" onclick="changeImage()"/>
+
+        <script>
+            let isFirstImage = true;
+
+            function changeImage() {
+                let img = document.getElementById("imagr");
+
+                if (isFirstImage) {
+                    img.src = "images/drum_02.jpg";
+                    isFirstImage = false;
+                } else {
+                    img.src = "images/drum_01.jpg";
+                    isFirstImage = true;
+                }
+            }
+        </script>
+    </body>
+</html>
+
+
